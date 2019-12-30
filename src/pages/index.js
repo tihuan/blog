@@ -10,7 +10,7 @@ class BlogIndex extends React.Component {
   render() {
     const { data } = this.props
     const siteTitle = data.site.siteMetadata.title
-    const posts = data.allMarkdownRemark.edges
+    const posts = data.allMarkdownRemark.edges.sort(zToA)
 
     return (
       <Layout location={this.props.location} title={siteTitle}>
@@ -73,3 +73,16 @@ export const pageQuery = graphql`
     }
   }
 `
+
+function zToA(a, b) {
+  const aSlug = a.node.fields.slug
+  const bSlug = b.node.fields.slug
+
+  if (aSlug > bSlug) {
+    return -1
+  }
+  if (aSlug < bSlug) {
+    return 1
+  }
+  return 0
+}
